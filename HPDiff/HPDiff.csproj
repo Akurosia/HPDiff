@@ -17,6 +17,7 @@
 			<HintPath>$(AppData)\XIVLauncher\addon\Hooks\dev\CheapLoc.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
+		<None Update="HPDiff.json" CopyToOutputDirectory="PreserveNewest" />
 		<Content Include="Resources\**" DestinationFolder="Resources\$(RecursiveDir)" CopyToOutputDirectory="Always" />
 	</ItemGroup>
 </Project>

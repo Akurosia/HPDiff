@@ -38,6 +38,7 @@ public sealed class Plugin : IDalamudPlugin
 		//	UI Initialization
 		mUI = new PluginUI( this, mConfiguration );
 		mPluginInterface.UiBuilder.Draw += DrawUI;
+		mPluginInterface.UiBuilder.OpenMainUi += DrawMainUI;
 		mPluginInterface.UiBuilder.OpenConfigUi += DrawConfigUI;
 		mUI.Initialize();
 
@@ -50,6 +51,7 @@ public sealed class Plugin : IDalamudPlugin
 	{
 		Service.Framework.Update -= OnGameFrameworkUpdate;
 		mPluginInterface.UiBuilder.Draw -= DrawUI;
+		mPluginInterface.UiBuilder.OpenMainUi -= DrawMainUI;
 		mPluginInterface.UiBuilder.OpenConfigUi -= DrawConfigUI;
 		mPluginInterface.LanguageChanged -= OnLanguageChanged;
 		Service.CommandManager.RemoveHandler( mTextCommandName );
@@ -153,6 +155,11 @@ public sealed class Plugin : IDalamudPlugin
 	private void DrawConfigUI()
 	{
 		mUI.mSettingsWindowVisible = true;
+	}
+
+	private void DrawMainUI()
+	{
+		mUI.mMainWindowVisible = true;
 	}
 
 	public string Name => "HP Difference Gauge";

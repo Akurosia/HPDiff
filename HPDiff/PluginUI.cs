@@ -26,8 +26,43 @@ public sealed class PluginUI : IDisposable
 	public void Draw()
 	{
 		//	Draw the sub-windows.
+		DrawMainWindow();
 		DrawSettingsWindow();
 		DrawGaugeWindow();
+	}
+
+	private void DrawMainWindow()
+	{
+		if( !mMainWindowVisible ) return;
+
+		var gaugeData = mPlugin.GaugeDrawData;
+		var usingPreview = !gaugeData.mShouldDraw;
+		if( usingPreview ) gaugeData = DiffGaugeDrawData.PreviewGaugeData;
+
+		if( ImGui.Begin( "HP Difference Gauge###HPDiff Main",
+			ref mMainWindowVisible,
+			ImGuiWindowFlags.AlwaysAutoResize | ImGuiWindowFlags.NoCollapse ) )
+		{
+			ImGui.TextWrapped( "Shows the HP difference between two configured enemies on your aggro list." );
+			ImGui.Separator();
+			ImGui.TextUnformatted( usingPreview ? "Status: Preview data" : "Status: Live data" );
+			ImGui.TextUnformatted( $"Enemy 1: {gaugeData.mEnemy1Name} ({gaugeData.mEnemy1HP_Pct:F1}%)" );
+			ImGui.TextUnformatted( $"Enemy 2: {gaugeData.mEnemy2Name} ({gaugeData.mEnemy2HP_Pct:F1}%)" );
+			ImGui.TextUnformatted( $"Difference: {Math.Abs( gaugeData.HPDiff_Pct ):F1}%" );
+
+			ImGui.Spacing();
+			if( ImGui.Button( "Open Settings" ) )
+			{
+				mSettingsWindowVisible = true;
+			}
+			ImGui.SameLine();
+			if( ImGui.Button( "Close" ) )
+			{
+				mMainWindowVisible = false;
+			}
+		}
+
+		ImGui.End();
 	}
 
 	private void DrawSettingsWindow()
@@ -199,5 +234,6 @@ public sealed class PluginUI : IDisposable
 	private readonly Configuration mConfiguration;
 
 	internal bool mSettingsWindowVisible = false;
+	internal bool mMainWindowVisible = false;
 	private int mGaugeIndexWantToDelete = -1;
 }

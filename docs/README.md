@@ -14,7 +14,15 @@ This is a quick and dirty implementation, and has the following limitations:
 Like all other third party stuff, SE could discipline you if they find out you're using this plugin.  It's pretty benign (just reads the aggro list data and checks whether those actors have the specified names, then reads their HP), but I don't make any warranty about safety or efficacy.
 
 ## Installation
-This is not a main repo plugin.  Can be installed from [my third party plugin repo](https://github.com/PunishedPineapple/DalamudPluginRepo).
+This is not a main repo plugin.
+
+For normal use, install it from a third party repo such as [my plugin repo](https://github.com/PunishedPineapple/DalamudPluginRepo).
+
+For local testing on modern Dalamud:
+
+- Build the plugin in `Release`.
+- Use the packaged archive at [latest.zip](C:\Users\kamot\Documents\GitHub\HPDiff\HPDiff\bin\Release\HPDiff\latest.zip), or point your Dalamud dev plugin path at [bin/Debug](C:\Users\kamot\Documents\GitHub\HPDiff\HPDiff\bin\Debug) or [bin/Release](C:\Users\kamot\Documents\GitHub\HPDiff\HPDiff\bin\Release).
+- Do not load just `HPDiff.dll` by itself. Modern Dalamud requires the manifest file `HPDiff.json` alongside the DLL, and API 15 also validates that packaged zips contain that manifest.
 
 ## License
 Code and executable are covered under the [MIT License](../LICENSE).  Final Fantasy XIV (and any associated data used by this plugin) is owned by and copyright Square Enix.
