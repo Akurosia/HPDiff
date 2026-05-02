@@ -6,8 +6,8 @@ internal class DiffGaugeDrawData
 {
 	internal bool mShouldDraw;
 
-	internal string mEnemy1Name;
-	internal string mEnemy2Name;
+	internal string mEnemy1Name = string.Empty;
+	internal string mEnemy2Name = string.Empty;
 	internal Vector4 mLeftColor;
 	internal Vector4 mRightColor;
 	internal float mGaugeHalfRange_Pct;

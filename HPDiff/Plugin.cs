@@ -15,21 +15,22 @@ namespace HPDiff;
 
 public sealed class Plugin : IDalamudPlugin
 {
-	public Plugin( DalamudPluginInterface pluginInterface )
+	public Plugin( IDalamudPluginInterface pluginInterface )
 	{
 		//	API Access
 		pluginInterface.Create<Service>();
 		mPluginInterface = pluginInterface;
 
 		//	Configuration
-		mConfiguration = mPluginInterface.GetPluginConfig() as Configuration;
-		if( mConfiguration == null )
+		var configuration = mPluginInterface.GetPluginConfig() as Configuration;
+		if( configuration == null )
 		{
-			mConfiguration = new Configuration();
-			mConfiguration.DiffGaugeConfigs.Add( new( GaugeConfigPresets.DSR_Phase6 ) );
-			mConfiguration.DiffGaugeConfigs.Add( new( GaugeConfigPresets.TEA_Phase1 ) );
+			configuration = new Configuration();
+			configuration.DiffGaugeConfigs.Add( new( GaugeConfigPresets.DSR_Phase6 ) );
+			configuration.DiffGaugeConfigs.Add( new( GaugeConfigPresets.TEA_Phase1 ) );
 		}
-		mConfiguration.Initialize( mPluginInterface );
+		configuration.Initialize( mPluginInterface );
+		mConfiguration = configuration;
 
 		//	Localization and Command Initialization
 		OnLanguageChanged( mPluginInterface.UiLanguage );
@@ -97,8 +98,8 @@ public sealed class Plugin : IDalamudPlugin
 				config.mEnabled &&
 				config.mTerritoryType == Service.ClientState.TerritoryType )
 			{
-				var enemy1 = GetEnemyForName( config.mEnemy1Name ) as BattleChara;
-				var enemy2 = GetEnemyForName( config.mEnemy2Name ) as BattleChara;
+				var enemy1 = GetEnemyForName( config.mEnemy1Name ) as IBattleChara;
+				var enemy2 = GetEnemyForName( config.mEnemy2Name ) as IBattleChara;
 				if( enemy1 != null && enemy2 != null )
 				{
 					GaugeDrawData.mShouldDraw = true;
@@ -116,15 +117,15 @@ public sealed class Plugin : IDalamudPlugin
 		}
 	}
 
-	private unsafe GameObject GetEnemyForName( string name )
+	private unsafe IGameObject? GetEnemyForName( string name )
 	{
 		if( name is null or "" ) return null;
 
 		if( FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance() != null &&
-			FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance()->GetUiModule() != null &&
-			FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance()->GetUiModule()->GetRaptureAtkModule() != null )
+			FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance()->GetUIModule() != null &&
+			FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance()->GetUIModule()->GetRaptureAtkModule() != null )
 		{
-			var atkArrayDataHolder = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance()->GetUiModule()->GetRaptureAtkModule()->AtkModule.AtkArrayDataHolder;
+			var atkArrayDataHolder = FFXIVClientStructs.FFXIV.Client.System.Framework.Framework.Instance()->GetUIModule()->GetRaptureAtkModule()->AtkModule.AtkArrayDataHolder;
 			if( atkArrayDataHolder.NumberArrayCount >= 22 )
 			{
 				var pEnmityListArray = atkArrayDataHolder.NumberArrays[21];
@@ -134,8 +135,8 @@ public sealed class Plugin : IDalamudPlugin
 				{
 					int index = 8 + i * 6;
 					if( index >= pEnmityListArray->AtkArrayData.Size ) return null;
-					UInt32 OID = (UInt32)pEnmityListArray->IntArray[index];
-					var gameObject = Service.ObjectTable.SearchById( OID );
+					ulong gameObjectId = (uint)pEnmityListArray->IntArray[index];
+					var gameObject = Service.ObjectTable.SearchById( gameObjectId );
 					if( gameObject?.Name.TextValue == name ) return gameObject;
 				}
 			}
@@ -157,7 +158,7 @@ public sealed class Plugin : IDalamudPlugin
 	public string Name => "HP Difference Gauge";
 	private const string mTextCommandName = "/phpdiff";
 
-	private readonly DalamudPluginInterface mPluginInterface;
+	private readonly IDalamudPluginInterface mPluginInterface;
 	private readonly Configuration mConfiguration;
 	private readonly PluginUI mUI;
 

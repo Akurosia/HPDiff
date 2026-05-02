@@ -17,7 +17,7 @@ public class Configuration : IPluginConfiguration
 	public Vector4 mThresholdIndicatorColor = new( 0.85f );
 
 	//  Plugin framework and related convenience functions below.
-	public void Initialize( DalamudPluginInterface pluginInterface )
+	public void Initialize( IDalamudPluginInterface pluginInterface )
 	{
 		mPluginInterface = pluginInterface;
 	}
@@ -30,7 +30,7 @@ public class Configuration : IPluginConfiguration
 	public List<DiffGaugeConfig> DiffGaugeConfigs { get; protected set; } = new();
 
 	[NonSerialized]
-	protected DalamudPluginInterface mPluginInterface;
+	protected IDalamudPluginInterface mPluginInterface = null!;
 
 	public int Version { get; set; } = 0;
 }
