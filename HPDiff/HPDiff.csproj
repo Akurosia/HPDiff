@@ -10,14 +10,17 @@
 		<RepositoryUrl>https://github.com/PunishedPineapple/HPDiff</RepositoryUrl>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+		<CheapLocReferenceRoot Condition="'$(DALAMUD_HOME)' != ''">$(DALAMUD_HOME)</CheapLocReferenceRoot>
+		<CheapLocReferenceRoot Condition="'$(DALAMUD_HOME)' == ''">$(AppData)/XIVLauncher/addon/Hooks/dev</CheapLocReferenceRoot>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<Reference Include="CheapLoc">
-			<HintPath>$(AppData)\XIVLauncher\addon\Hooks\dev\CheapLoc.dll</HintPath>
+			<HintPath>$(CheapLocReferenceRoot)/CheapLoc.dll</HintPath>
 			<Private>false</Private>
 		</Reference>
 		<None Update="HPDiff.json" CopyToOutputDirectory="PreserveNewest" />
+		<Content Include="..\icon.png" Link="icon.png" CopyToOutputDirectory="PreserveNewest" />
 		<Content Include="Resources\**" DestinationFolder="Resources\$(RecursiveDir)" CopyToOutputDirectory="Always" />
 	</ItemGroup>
 </Project>
