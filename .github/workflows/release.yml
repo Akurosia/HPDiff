@@ -137,13 +137,21 @@ jobs:
           set -euo pipefail
 
           release_version="${{ steps.version.outputs.version }}"
+          repo_url="${{ github.server_url }}/${{ github.repository }}"
           download_url="${{ github.server_url }}/${{ github.repository }}/releases/download/${{ github.ref_name }}/latest.zip"
+
+          git fetch origin main
+          git checkout -B main origin/main
 
           jq \
             --arg release_version "$release_version" \
+            --arg repo_url "$repo_url" \
             --arg download_url "$download_url" \
             '.[0].AssemblyVersion = $release_version |
              .[0].TestingAssemblyVersion = $release_version |
+             .[0].RepoUrl = $repo_url |
+             .[0].IconUrl = ($repo_url + "/raw/main/icon.png") |
+             .[0].ImageUrls = [($repo_url + "/raw/main/docs/Images/image1.png")] |
              .[0].DownloadLinkInstall = $download_url |
              .[0].DownloadLinkUpdate = $download_url |
              .[0].DownloadLinkTesting = $download_url' \
@@ -162,4 +170,4 @@ jobs:
           fi
 
           git commit -m "Update repo.json for ${{ github.ref_name }}"
-          git push origin HEAD:main
+          git push origin main

@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<TargetFramework>net10.0-windows</TargetFramework>
 		<Platforms>AnyCPU</Platforms>
-		<Version>0.9.1.4</Version>
+		<Version>0.9.1.5</Version>
 		<Authors>PunishedPineapple</Authors>
 		<Product />
 		<Copyright>Copyright © PunishedPineapple 2022-2023</Copyright>
