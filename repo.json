@@ -3,8 +3,8 @@
     "Author": "PunishedPineapple",
     "Name": "HP Difference Gauge",
     "InternalName": "HPDiff",
-    "AssemblyVersion": "0.9.1.4",
-    "TestingAssemblyVersion": "0.9.1.4",
+    "AssemblyVersion": "0.0.2",
+    "TestingAssemblyVersion": "0.0.2",
     "Punchline": "Enemy HP Split Gauge",
     "Description": "Provides a visual representation of the HP difference between two enemies on your aggro list.  Open the plugin config window to see a preview of the gauge and to change options.",
     "ApplicableVersion": "any",
@@ -19,8 +19,8 @@
     "DalamudApiLevel": 15,
     "TestingDalamudApiLevel": 15,
     "AcceptsFeedback": true,
-    "DownloadLinkInstall": "https://github.com/PunishedPineapple/HPDiff/releases/download/v0.9.1.4/latest.zip",
-    "DownloadLinkTesting": "https://github.com/PunishedPineapple/HPDiff/releases/download/v0.9.1.4/latest.zip",
-    "DownloadLinkUpdate": "https://github.com/PunishedPineapple/HPDiff/releases/download/v0.9.1.4/latest.zip"
+    "DownloadLinkInstall": "https://github.com/Akurosia/HPDiff/releases/download/v0.0.2/latest.zip",
+    "DownloadLinkTesting": "https://github.com/Akurosia/HPDiff/releases/download/v0.0.2/latest.zip",
+    "DownloadLinkUpdate": "https://github.com/Akurosia/HPDiff/releases/download/v0.0.2/latest.zip"
   }
 ]
